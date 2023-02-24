@@ -44,13 +44,12 @@ var displayMessage = (msgCounter) => {
       msgCounter=msgCounter+1;
     }else if(msgCounter==16){
       isChangeTitle = true;
-      changeTitleText();        // Change Title Text
+      changeTitleText(0);        // Change Title Text
     }
     $(`.message-content#id-${msgCounter}`).css("fontSize", 50).fadeIn('slow').delay(5000);
     if(!isChangeTitle){
       displayMessage(msgCounter);
     }
-      
   });
 }
 
@@ -69,7 +68,7 @@ var flyBalloon = async (idBalloon) => {
 }
 
 
-let totalBallons = 30;
+let totalBallons = 35;
 var flyBalloons = () => {
   let balloonHtml = "";
   for(let i=1;i<=totalBallons;i++){
@@ -87,14 +86,36 @@ var flyBalloons = () => {
   }
 }
 
-var changeTitleText = () => {
+var changeTitleText = (titleCounter) => {
   $('p#title').fadeOut('slow').delay(100).promise().done(() => {
-    $('p#title').text("It's You");
+    let title = "";
+    switch(titleCounter){
+      case 0:
+        title = "It's You";
+        break;
+      case 1:
+        title = "It's always been You";
+        break;
+      case 2:
+        title = "是你";
+        break;
+      case 3:
+        title = "너야";
+        break;
+      case 4:
+        title = "사랑해요";
+        break;
+      default:
+        break;
+    }
+    if(titleCounter<=4){
+      titleCounter = titleCounter+1;
+    }
+    $('p#title').text(title);
     $('p#title').fadeIn('slow').delay(2000).promise().done(() => {
-      $('p#title').fadeOut('slow').delay(100).promise().done(() => {
-        $('p#title').text("It's always been You");
-        $('p#title').fadeIn('slow');
-      });
+      if(titleCounter<=4){
+        changeTitleText(titleCounter);
+      }
     });
   });
 }
